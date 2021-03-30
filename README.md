@@ -9,6 +9,8 @@ go test . (optional, to check if tests are passing)
 go build
 .\Go-HTTP-Server.exe <command> <arguments>
 ```
+Alternatively, go to [Releases](https://github.com/kploskonka/Go-HTTP-Server/releases/tag/1.0.0), download `Go-HTTP-Server.exe` and run the last command.
+
 
 ## Available commands
 ```

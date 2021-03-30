@@ -28,44 +28,22 @@ func runServer(fileName string) {
 	http.ListenAndServe(":8090", nil)
 }
 
-func exists(fileName string) bool {
-	if _, err := os.Stat(fileName); err != nil {
-        if os.IsNotExist(err) {
-            return false
-        }
-    }
-
-    return true
-}
-
 func main() {
 	runCommand := flag.NewFlagSet("run", flag.ExitOnError)
 	fileName := runCommand.String("file", "", "file")
 
 	if len(os.Args) < 2 {
-		PrintUnknownCmd()
+		fmt.Println("Expected arguments. Execute with 'help' to get available commands.")
 		return
 	}
-	
-	switch os.Args[1] {
-	case "help":
-		PrintHelp()
-	case "version":
-		PrintVersion();
-	case "run":
+
+	if (strings.Contains(os.Args[1], "run")) {
 		runCommand.Parse(os.Args[2:])
 
-		if (!exists(*fileName)) {
-			fmt.Printf("File '%v' does not exist.\n", *fileName)
-			return;
-		}
-
-		if strings.Contains(os.Args[2], "-file") {
+		if (IsRunCommandValid(os.Args, *fileName)) {
 			runServer(*fileName)
-		} else {
-			PrintUnknownCmd()
 		}
-	default:
-		PrintUnknownCmd()
+	} else {
+		HandleTextCommand(os.Args[1])
 	}
 }

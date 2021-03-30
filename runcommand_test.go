@@ -1,11 +1,6 @@
 package main
 
-import (
-    "testing"
-    "os"
-    "bytes"
-    "log"
-)
+import "testing"
 
 func TestRunCommandValidation_InvalidArgs(t *testing.T) {
     invalidArgs := [3]string{"dummyScriptName", "run", "abc"}

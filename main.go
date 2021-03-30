@@ -6,9 +6,8 @@ import (
 	"io/ioutil"
 	"net/http"
 	"os"
+	"strings"
 )
-
-const version = "0.0.1"
 
 type FileHandler struct {
     fileName string
@@ -29,23 +28,44 @@ func runServer(fileName string) {
 	http.ListenAndServe(":8090", nil)
 }
 
+func exists(fileName string) bool {
+	if _, err := os.Stat(fileName); err != nil {
+        if os.IsNotExist(err) {
+            return false
+        }
+    }
+
+    return true
+}
+
 func main() {
 	runCommand := flag.NewFlagSet("run", flag.ExitOnError)
 	fileName := runCommand.String("file", "", "file")
 
 	if len(os.Args) < 2 {
-		fmt.Println("No arguments.")
+		PrintUnknownCmd()
 		return
 	}
 	
 	switch os.Args[1] {
 	case "help":
-		fmt.Println("Help command placeholder")
+		PrintHelp()
 	case "version":
-		fmt.Printf("Current version: %v\n", version)
+		PrintVersion();
 	case "run":
 		runCommand.Parse(os.Args[2:])
-		fmt.Printf("Ran command 'run --file %v'\n", *fileName)
-		runServer(*fileName)
+
+		if (!exists(*fileName)) {
+			fmt.Printf("File '%v' does not exist.\n", *fileName)
+			return;
+		}
+
+		if strings.Contains(os.Args[2], "-file") {
+			runServer(*fileName)
+		} else {
+			PrintUnknownCmd()
+		}
+	default:
+		PrintUnknownCmd()
 	}
 }

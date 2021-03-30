@@ -5,7 +5,7 @@ Simple command-line interface program which runs an HTTP web server with a file 
 ```
 git clone https://github.com/kploskonka/Go-HTTP-Server.git
 cd GO-HTTP-Server
-(optional, to check if tests are passing) go test
+go test . (optional, to check if tests are passing)
 go build
 .\Go-HTTP-Server.exe <command> <arguments>
 ```

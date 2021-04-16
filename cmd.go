@@ -48,7 +48,7 @@ func exists(fileName string) bool {
 func IsRunCommandValid(args []string, fileName string) bool {
     if !strings.Contains(args[2], "-file") {
         printUnknownCmd()
-        return false;
+        return false
     }
 
     if !exists(fileName) {
